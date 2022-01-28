@@ -1,0 +1,65 @@
+﻿@model Whatsapp.Models.AuthViewModels.LoginViewModel;
+
+@{ Layout = "_LayoutAuth"; }
+<div class="app-content content ">
+    <div class="content-overlay"></div>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-wrapper">
+        <div class="content-header row">
+        </div>
+        <div class="content-body">
+            <div class="auth-wrapper auth-basic px-2">
+                <div class="auth-inner my-2">
+                    <!-- Login basic -->
+                    <div class="card mb-0">
+                        <div class="card-body">
+                            <a href="#" class="brand-logo">
+                                <img src="/logo.png" width="200px">
+                            </a>
+
+                            @*<h4 class="card-title mb-1">Bem-vindo(a) de volta 👋</h4>
+                            <p class="card-text mb-2">Entre com seus dados de acesso ou crie uma nova conta, é gratis!</p>*@
+
+                            <form class="auth-login-form mt-2" asp-action="Login" asp-controller="Auth" method="POST">
+                                <div class="mb-1">
+                                    <label for="login-email" class="form-label">Email</label>
+                                    <input asp-for="Email" type="text" class="form-control" id="login-email" placeholder="john@example.com" aria-describedby="login-email" tabindex="1" autofocus />
+                                </div>
+
+                                <div class="mb-1">
+                                    <div class="d-flex justify-content-between">
+                                        <label class="form-label" for="login-password">Senha</label>
+                                        <a href="@Url.Action("","Dashboard")">
+                                            <small>Esqueci minha senha!</small>
+                                        </a>
+                                    </div>
+                                    <div class="input-group input-group-merge form-password-toggle">
+                                        <input asp-for="Password" type="password" class="form-control form-control-merge" id="login-password" tabindex="2" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="login-password" />
+                                        <span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
+                                    </div>
+                                </div>
+                                <div class="mb-1">
+                                    <div class="form-check">
+                                        <input asp-for="RememberMe" class="form-check-input" type="checkbox" id="remember-me" tabindex="3" />
+                                        <label class="form-check-label" for="remember-me"> Lembrar-me </label>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary w-100" tabindex="4">Conectar</button>
+                            </form>
+
+                            <p class="text-center mt-2">
+                                <span>Não tem uma conta?</span>
+                                <a href="@Url.Action("","Dashboard")">
+                                    <span>Criar minha conta</span>
+                                </a>
+                            </p>
+
+                        </div>
+                    </div>
+                    <!-- /Login basic -->
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

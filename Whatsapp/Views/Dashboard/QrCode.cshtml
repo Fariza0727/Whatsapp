@@ -1,0 +1,16 @@
+﻿@{
+    Layout = "";
+}
+
+<img src="@ViewBag.QrCode" />
+
+@if (ViewBag.Conectado)
+{
+    <script type="text/javascript">
+        window.location.href = '/Dashboard/Configuracoes';
+    </script>
+}
+@if(ViewBag.QrCode == null || ViewBag.QrCode == "")
+{
+    <span>Buscando QrCode...</span>
+}

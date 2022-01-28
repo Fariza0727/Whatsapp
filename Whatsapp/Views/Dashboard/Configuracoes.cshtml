@@ -1,0 +1,182 @@
+﻿@{
+    ViewData["Config"] = "active";
+    ViewData["Title"] = "Configurações";
+    var instancia = ViewBag.Instancia as Whatsapp.API.Models.Instancia;
+}
+
+<div class="app-content content ">
+    <div class="content-overlay"></div>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-wrapper container-xxl p-0">
+        <div class="content-header row">
+            <div class="content-header-left col-md-9 col-12 mb-2">
+                <div class="row breadcrumbs-top">
+                    <div class="col-12">
+                        <h2 class="content-header-title float-start mb-0">Configurações</h2>
+                        <div class="breadcrumb-wrapper">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="@Url.Action("Index","Dashboard")">Dashboard</a>
+                                </li>
+                                <li class="breadcrumb-item active">
+                                    Configurações
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="content-body">
+            <div class="row">
+                <div class="col-12">
+                    <p>Sincronize seu whatsapp e suas integrações com apis.</p>
+                </div>
+            </div>
+            <br />
+
+            <!-- Conteudo -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-profile">
+
+                        @{
+                            if (instancia.Conectando && instancia.QrCode == null)
+                            {
+                                <div class="card-body">
+                                    <div class="profile-image-wrapper">
+                                        <div class="profile-image">
+                                            <div class="avatar">
+                                                <img src="~/app-assets/images/semfoto.jpg" alt="Profile Picture">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h3>Conectando ao Whatsapp</h3>
+                                    <h6 class="text-muted">Por favor aguarde enquanto recuperamos o seu cache...</h6><br />
+                                    <hr class="mb-2">
+                                </div>
+                                <script>
+                                    setTimeout(function () { location.reload() }, 3000);
+                                </script>
+                            }
+                            else if (instancia.Conectando && instancia.QrCode != null)
+                            {
+                    <div class="card-body">
+                        <div class="profile-image-wrapper">
+                            <div class="profile-image">
+                                <div class="avatar">
+                                    <img src="~/app-assets/images/semfoto.jpg" alt="Profile Picture">
+                                </div>
+                            </div>
+                        </div>
+                        <h3>Conectando ao Whatsapp</h3>
+
+                        <div id="qrcode">Buscando QRCode...</div><br />
+                        <hr class="mb-2">
+                    </div>
+                                <script type="text/javascript">
+                                    setInterval(function () {
+                                        $.ajax({
+                                            'type': 'get',
+                                            'contentType': 'text/plain',
+                                            'url': '/Dashboard/QrCode',
+                                            'dataType': 'html',
+                                            'timeout': 50000
+                                        }).done(function (data) {
+                                            // success
+                                            $('#qrcode').html(data);
+                                        }).fail(function (error) {
+                                            // something went wrong
+                                            console.log(error);
+                                        });
+
+                                    }, 3000);
+                                </script>
+                            }
+                            else if (!instancia.Conectado)
+                            {
+                                <div class="card-body">
+                                    <div class="profile-image-wrapper">
+                                        <div class="profile-image">
+                                            <div class="avatar">
+                                                <img src="~/app-assets/images/semfoto.jpg" alt="Profile Picture">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h3>Whatsapp Desconectado</h3>
+                                    <h6 class="text-muted">Sincronize seu whatsapp com o dispositivo através do QrCode</h6><br />
+                                    <a href="@Url.Action("Sincronia","Dashboard")">
+                                        <button type="button" class="btn btn-relief-primary">Sincronizar Whatsapp</button>
+                                    </a>
+                                    <hr class="mb-2">
+                                </div>
+                            }
+                            else
+                            {
+                    <div class="card-body">
+                        <div class="profile-image-wrapper">
+                            <div class="profile-image">
+                                <div class="avatar">
+                                    <img src="@instancia.Whatsapp.Imagem" alt="Profile Picture">
+                                </div>
+                            </div>
+                        </div>
+                        <h3>@instancia.Whatsapp.Nome (@instancia.Whatsapp.Numero)</h3>
+                        <h6 class="text-muted">@instancia.Whatsapp.Dispositivo (@instancia.Whatsapp.Plataforma)</h6><br />
+                        <a href="javascript:(0)" onclick="Reiniciar()">
+                            <button type="button" class="btn btn-relief-primary">Reiniciar Sincronização</button>
+                        </a>
+                        @if (instancia.Comunicacao)
+                        {
+
+                            <a href="@Url.Action("Desligar","Dashboard")">
+                                <button type="button" class="btn btn-relief-danger">Desligar Comunicação</button>
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("Ligar","Dashboard")">
+                                <button type="button" class="btn btn-relief-success">Ligar Comunicação</button>
+                            </a>
+
+                        }
+                        <a href="@Url.Action("Desconectar","Dashboard")">
+                            <button type="button" class="btn btn-relief-dark">Desconectar Whatsapp</button>
+                        </a>
+                        <hr class="mb-2">
+                    </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function Reiniciar() {
+        $('body').loadingModal({
+            position: 'auto',
+            text: 'Reiniciando Whatsapp...',
+            color: '#fff',
+            opacity: '0.7',
+            backgroundColor: 'rgb(0,0,0)',
+            animation: 'foldingCube'
+        });
+
+        $.ajax({
+            'type': 'get',
+            'contentType': 'text/plain',
+            'url': '/Dashboard/Reiniciar',
+            'dataType': 'html',
+            'timeout': 50000
+        }).done(function (data) {
+            $('body').loadingModal('destroy');
+            window.location.reload()
+        }).fail(function (error) {
+            // something went wrong
+            console.log(error);
+        });
+    }
+</script>

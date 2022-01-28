@@ -1,0 +1,81 @@
+﻿@{
+    ViewData["Config"] = "active";
+    var instancia = ViewBag.Instancia as Whatsapp.API.Models.Instancia;
+}
+@model Whatsapp.Data.MainModels.ConfigMKAUTH;
+<div class="app-content content ">
+    <div class="content-overlay"></div>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-wrapper container-xxl p-0">
+        <div class="content-header row">
+            <div class="content-header-left col-md-9 col-12 mb-2">
+                <div class="row breadcrumbs-top">
+                    <div class="col-12">
+                        <h2 class="content-header-title float-start mb-0">MKAUTH</h2>
+                        <div class="breadcrumb-wrapper">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="@Url.Action("Index","Dashboard")">Dashboard</a>
+                                </li>
+                                <li class="breadcrumb-item active">
+                                    APIS
+                                </li>
+                                <li class="breadcrumb-item active">
+                                    MKAUTH
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="content-body">
+            <div class="row">
+                <div class="col-12">
+                    <p>Configure seus dados de conexão com a api</p>
+                </div>
+            </div>
+            <br />
+
+            <!-- Conteudo -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Dados da API</h4>
+                        </div>
+                        <div class="card-body">
+                            <form class="form" asp-action="MKAUTH" asp-controller="Dashboard">
+                                <input type="hidden" asp-for="ID"/>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="mb-1">
+                                            <label class="form-label" for="first-name-column">IP</label>
+                                            <input type="text" asp-for="IP" class="form-control" placeholder="142.52.147.242">
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="mb-1">
+                                            <label class="form-label" for="first-name-column">Client ID</label>
+                                            <input type="text" asp-for="ClientID" class="form-control" placeholder="3e4d5a6924565ad8086be472636a5f4119" >
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="mb-1">
+                                            <label class="form-label" for="first-name-column">Client Secret</label>
+                                            <input type="text" asp-for="ClientSecret" class="form-control" placeholder="c9940b1235etb85a2f3cc851875a28d0">
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <button type="submit" class="btn btn-primary me-1 waves-effect waves-float waves-light">Salvar Configurações</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

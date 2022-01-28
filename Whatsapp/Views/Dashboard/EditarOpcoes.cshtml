@@ -1,0 +1,329 @@
+﻿@{ 
+    var data = ViewBag.Data as List<Whatsapp.Data.MainModels.Opcao>;
+    var sessoes = ViewBag.Sessoes as List<Whatsapp.Data.MainModels.Sessao>;
+    ViewData["Config"] = "active";
+}
+<div class="app-content content ">
+    <div class="content-overlay"></div>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-wrapper container-xxl p-0">
+        <div class="content-header row">
+            <div class="content-header-left col-md-9 col-12 mb-2">
+                <div class="row breadcrumbs-top">
+                    <div class="col-12">
+                        <h2 class="content-header-title float-start mb-0">Editar Opções</h2>
+                        <div class="breadcrumb-wrapper">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="@Url.Action("Index","Dashboard")">Dashboard</a>
+                                </li>
+                                <li class="breadcrumb-item">
+                                    <a href="@Url.Action("Chatbot","Dashboard")">Chatbot</a>
+                                </li>
+                                <li class="breadcrumb-item active">
+                                    <a href="@Url.Action("Sessoes","Dashboard")">Sessões</a>
+                                </li>
+                                <li class="breadcrumb-item active">
+                                    Editar Opções
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content-body">
+            <section class="form-control-repeater">
+                <div class="row">
+                    <!-- Invoice repeater -->
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Opções</h4>
+                            </div>
+                            <div class="card-body">
+                                <form id="FormOpcoes" class="invoice-repeater" name="FormOpcoes" action="#" method="post">
+                                    <input type="hidden" name="Sessao" value="@ViewBag.Sessao"/>
+                                    <div data-repeater-list="invoice">
+                                        @{
+                                            foreach (var item in data)
+                                            {
+
+                                                <div data-repeater-item>
+                                                    <div class="row d-flex align-items-end">
+                                                        <div class="col-3">
+                                                            <div class="mb-1">
+                                                                <label class="form-label">Palavra-chave</label>
+                                                                <input type="text" class="form-control" name="Key" id="Key" value="@item.Palavra" />
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-2">
+                                                            <div class="mb-1">
+                                                                <label class="form-label">Tipo</label>
+                                                                <select class="form-control" style="width: 100%" name="Tipo" id="Tipo" onchange="AlterarSelecao(this)" onmouseover="AlterarSelecao(this)">
+                                                                    @if (item.Tipo == "Chamada para API")
+                                                                    {
+                                                                        <option selected>Chamada para API</option>
+}
+                                                                    else
+                                                                    {
+                                                                        <option>Chamada para API</option>
+}
+                                                                    @if (item.Tipo == "Enviar uma mensagem")
+                                                                    {
+                                                                        <option selected>Enviar uma mensagem</option>
+ }
+                                                                    else
+                                                                    {
+                                                                        <option>Enviar uma mensagem</option>
+}
+                                                                    @if (item.Tipo == "Abrir outra sessão")
+                                                                    {
+                                                                        <option selected>Abrir outra sessão</option>
+}
+                                                                    else
+                                                                    {
+                                                                        <option>Abrir outra sessão</option>
+}
+
+
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-2">
+                                                            <div class="mb-1">
+                                                                <label class="form-label">Sessão</label>
+                                                                <select class="form-control" style="width: 100%" disabled name="Sessao" id="Sessao" value="@item.SessaoRef">
+                                                                    @{
+                                                                        foreach (var ss in sessoes)
+                                                                        {
+                                                                            if (ss.ID == item.SessaoRef)
+                                                                            {
+                                                                                <option value="@ss.ID" selected>@ss.Titulo</option>
+                                                                            }
+                                                                            else
+                                                                            {
+
+                                                                                <option value="@ss.ID" >@ss.Titulo</option>
+                                                                            }
+                                                                        }
+
+                                                                    }
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="col-2">
+                                                            <div class="mb-1">
+                                                                <label class="form-label">Mensagem</label>
+                                                                <input type="text" class="form-control" name="Mensagem" id="Mensagem" value="@item.Mensagem" />
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-2">
+                                                            <div class="mb-1">
+                                                                <label class="form-label">API</label>
+                                                                <select class="select2-icons form-select" style="width: 100%" disabled name="Api" id="Api" value="@item.Api">
+                                                                    <option></option>
+                                                                    <optgroup label="MKAUTH">
+                                                                        @if (item.Api == "[MKAUTH] Última Fatura"){<option selected>[MKAUTH] Última Fatura</option>}else { <option>[MKAUTH] Última Fatura</option>}
+                                                                        @if (item.Api == "[MKAUTH] Histórico de Faturas") { <option selected>[MKAUTH] Histórico de Faturas</option>} else {<option>[MKAUTH] Histórico de Faturas</option> }
+                                                                        @if (item.Api == "[MKAUTH] Fatura Atrasada") { <option selected>[MKAUTH] Fatura Atrasada</option>} else {<option>[MKAUTH] Fatura Atrasada</option> }
+                                                                        @if (item.Api == "[MKAUTH] Próxima Fatura") {<option selected>[MKAUTH] Próxima Fatura</option> } else {<option>[MKAUTH] Próxima Fatura</option> }
+                                                                        @if (item.Api == "[MKAUTH] Consultar Planos") {<option selected>[MKAUTH] Consultar Planos</option> } else { <option>[MKAUTH] Consultar Planos</option>}
+                                                                        @if (item.Api == "[MKAUTH] Meu Plano") { <option selected>[MKAUTH] Meu Plano</option>} else { <option>[MKAUTH] Meu Plano</option>}
+                                                                        @if (item.Api == "[MKAUTH] Minha Instalação") { <option selected>[MKAUTH] Minha Instalação</option>} else { <option>[MKAUTH] Minha Instalação</option>}
+                                                                        @if (item.Api == "[MKAUTH] Contas Bancárias") {<option selected>[MKAUTH] Contas Bancárias</option> } else {<option>[MKAUTH] Contas Bancárias</option> }
+                                                                        @if (item.Api == "[MKAUTH] Buscar Cliente") { <option selected>[MKAUTH] Buscar Cliente</option>} else {<option>[MKAUTH] Buscar Cliente</option> }
+                                                                        @if (item.Api == "[MKAUTH] Meus Chamados") { <option selected>[MKAUTH] Meus Chamados</option>} else {<option>[MKAUTH] Meus Chamados</option> }
+                                                                        @if (item.Api == "[MKAUTH] Visualizar Chamado") {<option selected>[MKAUTH] Visualizar Chamado</option> } else {<option>[MKAUTH] Visualizar Chamado</option> }
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                    </optgroup>
+                                                                    <optgroup label="IXC">
+                                                                        <option disabled>Em Desenvolvimento</option>
+                                                                    </optgroup>
+                                                                    <optgroup label="SGP">
+                                                                        <option disabled>Em Desenvolvimento</option>
+                                                                    </optgroup>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="col-1">
+                                                            <div class="mb-1">
+                                                                <button class="btn btn-outline-danger text-nowrap px-1" data-repeater-delete type="button">
+                                                                    <i data-feather="x" class="me-25"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <hr />
+                                                </div>
+                                            }
+
+                                            if (data.Count == 0)
+                                            {
+
+                                                <div data-repeater-item>
+                                                    <div class="row d-flex align-items-end">
+                                                        <div class="col-3">
+                                                            <div class="mb-1">
+                                                                <label class="form-label">Palavra-chave</label>
+                                                                <input type="text" class="form-control" name="Key" id="Key" />
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-2">
+                                                            <div class="mb-1">
+                                                                <label class="form-label">Tipo</label>
+                                                                <select class="form-control" style="width: 100%" name="Tipo" id="Tipo" onchange="AlterarSelecao(this)">
+
+                                                                    <option>Chamada para API</option>
+                                                                    <option selected>Enviar uma mensagem</option>                                                                   
+                                                                    <option>Abrir outra sessão</option>
+
+
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-2">
+                                                            <div class="mb-1">
+                                                                <label class="form-label">Sessão</label>
+                                                                <select class="form-control" style="width: 100%" disabled name="Sessao" id="Sessao">
+                                                                    @{
+                                                                        foreach (var ss in sessoes)
+                                                                        {
+                                                                            <option value="@ss.ID">@ss.Titulo</option>
+                                                                        }
+
+                                                                    }
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="col-2">
+                                                            <div class="mb-1">
+                                                                <label class="form-label">Mensagem</label>
+                                                                <input type="text" class="form-control" name="Mensagem" id="Mensagem"  />
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-2">
+                                                            <div class="mb-1">
+                                                                <label class="form-label">API</label>
+                                                                <select class="select2-icons form-select" style="width: 100%" disabled name="Api" id="Api">
+                                                                    <option></option>
+                                                                    <optgroup label="MKAUTH">
+                                                                        <option>[MKAUTH] Última Fatura</option>
+                                                                        <option>[MKAUTH] Histórico de Faturas</option>
+                                                                        <option>[MKAUTH] Fatura Atrasada</option>
+                                                                        <option>[MKAUTH] Próxima Fatura</option>
+                                                                        <option>[MKAUTH] Consultar Planos</option>
+                                                                        <option>[MKAUTH] Meu Plano</option>
+                                                                        <option>[MKAUTH] Minha Instalação</option>
+                                                                        <option>[MKAUTH] Contas Bancárias</option>
+                                                                        <option>[MKAUTH] Buscar Cliente</option>
+                                                                        <option>[MKAUTH] Meus Chamados</option>
+                                                                        <option>[MKAUTH] Visualizar Chamado</option>
+                                                                    </optgroup>
+                                                                    <optgroup label="IXC">
+                                                                        <option disabled>Em Desenvolvimento</option>
+                                                                    </optgroup>
+                                                                    <optgroup label="SGP">
+                                                                        <option disabled>Em Desenvolvimento</option>
+                                                                    </optgroup>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="col-1">
+                                                            <div class="mb-1">
+                                                                <button class="btn btn-outline-danger text-nowrap px-1" data-repeater-delete type="button">
+                                                                    <i data-feather="x" class="me-25"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <hr />
+                                                </div>
+                                            }
+                                        }
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <button class="btn btn-icon btn-primary" type="button" data-repeater-create>
+                                                <i data-feather="plus" class="me-25"></i>
+                                                <span>Adicionar Opção</span>
+                                            </button>
+                                            <button class="btn btn-icon btn-info" type="button" onclick="SalvarOpcoes()">                                                
+                                                <span>Salvar Alterações</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Invoice repeater -->
+                </div>
+            </section>
+
+        </div>
+    </div>
+</div>
+<script>
+    function AlterarSelecao(e) {
+
+        if (e.selectedOptions[0].label == "Chamada para API") {
+            e.parentElement.parentElement.parentElement.children[4].children[0].children[1].disabled = false;
+            e.parentElement.parentElement.parentElement.children[3].children[0].children[1].disabled = true;
+            e.parentElement.parentElement.parentElement.children[2].children[0].children[1].disabled = false;
+        }
+        if (e.selectedOptions[0].label == "Enviar uma mensagem") {
+            e.parentElement.parentElement.parentElement.children[4].children[0].children[1].disabled = true;
+            e.parentElement.parentElement.parentElement.children[3].children[0].children[1].disabled = false;
+            e.parentElement.parentElement.parentElement.children[2].children[0].children[1].disabled = true;
+        }
+
+        if (e.selectedOptions[0].label == "Abrir outra sessão") {
+            e.parentElement.parentElement.parentElement.children[4].children[0].children[1].disabled = true;
+            e.parentElement.parentElement.parentElement.children[3].children[0].children[1].disabled = true;
+            e.parentElement.parentElement.parentElement.children[2].children[0].children[1].disabled = false;
+        }
+    }
+    function SalvarOpcoes() {
+        var myform = $('#FormOpcoes');
+        // Find disabled inputs, and remove the "disabled" attribute
+        var disabled = myform.find(':input:disabled').removeAttr('disabled');
+        // serialize the form
+        var serialized = myform.serializeArray();
+        // re-disabled the set of inputs that you previously enabled
+        disabled.attr('disabled', 'disabled');
+
+        $.ajax({
+            type: "POST",
+            url: "/Dashboard/SalvarOpcoes",
+            data: JSON.stringify(serialized), // serializes the form's elements.
+            success: function (data) {
+                window.location.href = "/Dashboard/Sessoes";
+            }
+        });
+    }
+</script>

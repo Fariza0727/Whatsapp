@@ -1,0 +1,162 @@
+﻿@{
+    var atendentes = ViewBag.Atendentes as List<Whatsapp.Data.MainModels.Usuario>;
+    ViewData["Atendentes"] = "active";
+}
+
+<div class="app-content content ">
+    <div class="content-overlay"></div>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-wrapper container-xxl p-0">
+        <div class="content-header row">
+            <div class="content-header-left col-md-9 col-12 mb-2">
+                <div class="row breadcrumbs-top">
+                    <div class="col-12">
+                        <h2 class="content-header-title float-start mb-0">Atendentes</h2>
+                        <div class="breadcrumb-wrapper">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="@Url.Action("Index","Dashboard")">Dashboard</a>
+                                </li>
+                                <li class="breadcrumb-item active">
+                                    Atendentes
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="content-body">
+            <div class="row">
+                <div class="col-12">
+                    <p>Você poderá criar mais atendentes de acordo com o seu nível de assinatura.</p>
+                </div>
+            </div>
+            <br />
+
+            <!-- Basic table -->
+            <section id="basic-datatable">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer" style="padding-right: 25px;padding-top: 25px;padding-left: 25px;padding-bottom: 25px;">
+                                <div class="card-header border-bottom p-1">
+                                    <div class="head-label">
+                                        <h3 class="mb-0">Todos os Atendentes (@atendentes.Count())</h3><br />
+                                    </div>
+                                    <div class="dt-action-buttons text-end">
+
+                                        <div class="dt-buttons d-inline-flex">
+
+                                            <button class="dt-button create-new btn btn-primary" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="modal" data-bs-target="#modalNovoAtendente" onclick="modalNovoAtendente()">
+                                                <span>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus me-50 font-small-4">
+                                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                                    </svg>Adicionar Novo
+                                                </span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <table class="datatables-basic table dataTable no-footer dtr-column" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="width: 1322px;">
+                                    <thead>
+                                        <tr role="row">
+
+                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 304px;" aria-label="Name: activate to sort column ascending">Nome</th>
+                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 293px;" aria-label="Email: activate to sort column ascending">Email</th>
+                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 89px;" aria-label="Date: activate to sort column ascending">Últ. Login</th>
+                                            <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 80px;" aria-label="Actions"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            foreach (var item in atendentes)
+                                            {
+
+                                            <tr class="odd">
+
+                                                <td>
+                                                    <div class="d-flex justify-content-left align-items-center">
+                                                        <div class="d-flex flex-column">
+                                                            <span class="emp_name text-truncate fw-bold">@item.Nome</span>
+                                                            <small class="emp_post text-truncate text-muted">@item.Registro.ToShortDateString()</small>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>@item.Email</td>
+                                                <td>@item.UltimoLogin</td>
+                                                <td>
+                                                    <div class="d-inline-flex">
+                                                        <a class="pe-1 dropdown-toggle hide-arrow text-primary" data-bs-toggle="dropdown">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical font-small-4">
+                                                                <circle cx="12" cy="12" r="1"></circle>
+                                                                <circle cx="12" cy="5" r="1"></circle>
+                                                                <circle cx="12" cy="19" r="1"></circle>
+                                                            </svg>
+                                                        </a>
+                                                        <div class="dropdown-menu dropdown-menu-end">
+                                                            <a href="javascript:;" class="dropdown-item">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text font-small-4 me-50">
+                                                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                                                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                                                                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                                                                    <polyline points="10 9 9 9 8 9"></polyline>
+                                                                </svg>Detalhes
+                                                            </a>
+                                                            <a href="javascript:;" class="dropdown-item delete-record">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2 font-small-4 me-50">
+                                                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                                                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                                                                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                                                                </svg>Deletar
+                                                            </a>
+                                                        </div>
+                                                    </div>
+
+                                                </td>
+                                            </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal to add new record -->
+                <div class="modal modal-slide-in fade" id="modalNovoAtendente">
+                    <div class="modal-dialog sidebar-sm" id="NovoAtendente">
+
+                    </div>
+                </div>
+            </section>
+            <!--/ Basic table -->
+
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    window.onload = function () {
+        $('.datatables-basic').DataTable();
+    };
+</script>
+
+<script type="text/javascript">
+    function modalNovoAtendente() {
+        $.ajax({
+            url: "/Dashboard/NovoAtendente",
+            dataType: "text",
+            type: "GET",
+            success: function (data) {
+                $('#NovoAtendente').html(data);
+            }
+        })
+    }
+
+</script>

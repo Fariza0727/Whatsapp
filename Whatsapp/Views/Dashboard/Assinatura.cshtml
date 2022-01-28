@@ -1,0 +1,204 @@
+﻿@{ 
+    ViewData["MinhaConta"] = "active";
+}
+<div class="app-content content ">
+    <div class="content-overlay"></div>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-wrapper container-xxl p-0">
+        <div class="content-header row">
+            <div class="content-header-left col-md-9 col-12 mb-2">
+                <div class="row breadcrumbs-top">
+                    <div class="col-12">
+                        <h2 class="content-header-title float-start mb-0">Assinatura</h2>
+                        <div class="breadcrumb-wrapper">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="@Url.Action("Index","Dashboard")">Dashboard</a>
+                                </li>
+                                <li class="breadcrumb-item active">
+                                    Assinatura
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <div class="content-body">
+            <div class="row">
+                <div class="col-12">
+                    <!-- billing and plans  -->
+                    <!-- current plan -->
+                    <div class="card">
+                        <div class="card-header border-bottom">
+                            <h4 class="card-title">Minha Assinatura</h4>
+                        </div>
+                        <div class="card-body my-2 py-25">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-2 pb-50">
+                                        <h5>Seu plano de assinatura atual: <strong>Basic</strong></h5>
+                                        <span>Você pode alterar isso quando quiser!</span>
+                                    </div>
+                                    <div class="mb-2 pb-50">
+                                        <h5>Ativo desde: <strong>29/01/2021</strong></h5>
+                                        <span>Nós te notificaremos quando estiver proximo do fim</span>
+                                    </div>
+                                    <div class="mb-1">
+                                        <h5>R$150 por mês <span class="badge badge-light-primary ms-50">Melhor Opção</span></h5>
+                                        <span>Seu custo de assinatura</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="alert alert-warning mb-2" role="alert">
+                                        <h6 class="alert-heading">Atenção!</h6>
+                                        <div class="alert-body fw-normal">Sua assinatura está quase no fim!</div>
+                                    </div>
+                                    <div class="plan-statistics pt-1">
+                                        <div class="d-flex justify-content-between">
+                                            <h5 class="fw-bolder">Dias</h5>
+                                            <h5 class="fw-bolder">4 de 30 dias</h5>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <p class="mt-50">4 dias restantes para o fim da sua assinatura</p>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <button class="btn btn-primary me-1 mt-1" data-bs-toggle="modal" data-bs-target="#pricingModal">
+                                        Renovar Assinatura
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- / current plan -->
+                </div>
+            </div>
+            <!-- pricing modal  -->
+            <div class="modal fade" id="pricingModal" tabindex="-1" aria-labelledby="pricingModalTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header bg-transparent">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body px-sm-5 mx-50 pb-5">
+                            <div id="pricing-plan">
+                                <!-- title text and switch button -->
+                                <div class="text-center">
+                                    <h1 id="pricingModalTitle">Planos de Assinatura</h1>
+                                    <p class="mb-3">
+                                        Você pode assinar qualquer plano de sua preferência, independente da sua assinatura atual.
+                                    </p>
+                                    
+                                </div>
+                                <!--/ title text and switch button -->
+                                <!-- pricing plan cards -->
+                                <div class="row pricing-card">
+                                    <!-- basic plan -->
+                                    <div class="col-12 col-lg-4">
+                                        <div class="card basic-pricing border text-center shadow-none">
+                                            <div class="card-body">
+                                                <img src="~/app-assets/images/illustration/Pot1.svg" class="mb-2 mt-5" alt="svg img" />
+                                                <h3>Plano 1</h3>
+                                                <p class="card-text">A simple start for everyone</p>
+                                                <div class="annual-plan my-2">
+                                                    <div class="d-flex justify-content-center plan-price">
+                                                        <sup class="d-block font-medium-1 fw-bold text-primary mt-2">R$50</sup>
+                                                        <span class="pricing-basic-value fw-bolder text-primary font-large-3 lh-1">0</span>
+                                                        <sub class="pricing-duration text-body font-medium-1 fw-bold mt-3">/mês</sub>
+                                                    </div>
+                                                </div>
+                                                <ul class="list-group list-group-circle text-start fw-bold">
+                                                    <li class="list-group-item">100 responses a month</li>
+                                                    <li class="list-group-item">Unlimited forms and surveys</li>
+                                                    <li class="list-group-item">Unlimited fields</li>
+                                                    <li class="list-group-item">Basic form creation tools</li>
+                                                    <li class="list-group-item">Up to 2 subdomains</li>
+                                                </ul>
+                                                <button class="btn w-100 btn-outline-success mt-2">Sua assinatura atual</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/ basic plan -->
+                                    <!-- standard plan -->
+                                    <div class="col-12 col-lg-4">
+                                        <div class="card standard-pricing border-primary text-center shadow-none">
+                                            <div class="card-body">
+                                                <div class="pricing-badge text-end">
+                                                    <span class="badge rounded-pill badge-light-primary">Melhor Opção</span>
+                                                </div>
+                                                <img src="~/app-assets/images/illustration/Pot2.svg" class="mb-1" alt="svg img" />
+                                                <h3>Plano 2</h3>
+                                                <p class="card-text">For small to medium businesses</p>
+                                                <div class="annual-plan my-2">
+                                                    <div class="d-flex justify-content-center plan-price">
+                                                        <sup class="d-block font-medium-1 fw-bold text-primary mt-2">R$</sup>
+                                                        <span class="pricing-standard-value fw-bolder text-primary font-large-3 lh-1">149</span>
+                                                        <sub class="pricing-duration text-body font-medium-1 fw-bold mt-3">/month</sub>
+                                                    </div>
+                                                    <small class="annual-pricing d-none text-muted"></small>
+                                                </div>
+                                                <ul class="list-group list-group-circle text-start fw-bold">
+                                                    <li class="list-group-item">Unlimited responses</li>
+                                                    <li class="list-group-item">Unlimited forms and surveys</li>
+                                                    <li class="list-group-item">Instagram profile page</li>
+                                                    <li class="list-group-item">Google Docs integration</li>
+                                                    <li class="list-group-item">Custom “Thank you” page</li>
+                                                </ul>
+                                                <button class="btn w-100 btn-primary mt-2">Assinar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/ standard plan -->
+                                    <!-- enterprise plan -->
+                                    <div class="col-12 col-lg-4">
+                                        <div class="card enterprise-pricing border text-center shadow-none">
+                                            <div class="card-body">
+                                                <img src="~/app-assets/images/illustration/Pot3.svg" class="mb-2" alt="svg img" />
+                                                <h3>Plano 3</h3>
+                                                <p class="card-text">Solution for big organizations</p>
+                                                <div class="annual-plan my-2">
+                                                    <div class="d-flex justify-content-center plan-price">
+                                                        <sup class="d-block font-medium-1 fw-bold text-primary mt-2">R$</sup>
+                                                        <span class="pricing-enterprise-value fw-bolder text-primary font-large-3 lh-1">299</span>
+                                                        <sub class="pricing-duration text-body font-medium-1 fw-bold mt-3">/month</sub>
+                                                    </div>
+                                                    <small class="annual-pricing d-none text-muted"></small>
+                                                </div>
+                                                <ul class="list-group list-group-circle text-start fw-bold">
+                                                    <li class="list-group-item">PayPal payments</li>
+                                                    <li class="list-group-item">Logic Jumps</li>
+                                                    <li class="list-group-item">File upload with 5GB storage</li>
+                                                    <li class="list-group-item">Custom domain support</li>
+                                                    <li class="list-group-item">Stripe integration</li>
+                                                </ul>
+                                                <button class="btn w-100 btn-outline-primary mt-2">Assinar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/ enterprise plan -->
+                                </div>
+                                <!--/ pricing plan cards -->
+                                <!-- pricing free trial -->
+                             
+                                <!--/ pricing free trial -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- / pricing modal  -->
+            <!-- edit card modal  -->
+        
+            <!--/ edit card modal  -->
+
+        </div>
+    </div>
+</div>
+<script src="~/app-assets/js/scripts/pages/page-pricing.js"></script>
+<script src="~/app-assets/js/scripts/pages/modal-add-new-cc.js"></script>
+<script src="~/app-assets/js/scripts/pages/modal-edit-cc.js"></script>
+<script src="~/app-assets/js/scripts/pages/page-account-settings-billing.js"></script>

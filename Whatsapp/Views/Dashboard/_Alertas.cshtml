@@ -1,0 +1,42 @@
+﻿@{
+    Layout = "";
+}
+
+@{
+    if (ViewBag.AlertaConexao != null)
+    {
+        if (ViewBag.AlertaConexao == true && ViewBag.ComunicacaoCortada == null)
+        {
+            <div class="alert alert-success" role="alert" style="margin-top: -10px;">
+                <div class="" style="padding-left: 10px;">
+                    <img src="https://i.imgur.com/u4TG39o.png" style="transform: rotate(-90deg)" /> <span style="font-size: 10px">Tudo certo, seu whatsapp já está conectado e pronto para efetuar novos atendimentos.</span>
+                </div>
+            </div>
+        }
+        else if (ViewBag.ComunicacaoCortada == true)
+        {
+            <div class="alert alert-warning" role="alert" style="margin-top: -10px;">
+                <div class="" style="padding-left: 10px;">
+                    <img src="https://i.imgur.com/RL4diP1.png" style="transform: rotate(-90deg)" />  <span style="font-size: 10px"> Seu whatsapp está conectado, porém, com a comunicação desabilitada pela configuração.</span>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-danger" role="alert" style="margin-top: -10px;">
+                <div class="" style="padding-left: 10px;">
+                    <img src="https://i.imgur.com/RL4diP1.png" style="transform: rotate(-90deg)" />  <span style="font-size: 10px"> Seu whatsapp está desconectado, verifique sua conexão com a internet ou refaça a sincronia na página de configuração.</span>
+                </div>
+            </div>
+
+        }
+    }
+    if (ViewBag.AlertaBateria != null)
+    {
+        <div class="alert alert-warning" role="alert" style="margin-top: -10px;">
+            <div class="" style="padding-left: 10px;">
+                <img src="https://i.imgur.com/Vz8kGLS.png" style="transform: rotate(-90deg)" /> <span style="font-size: 10px"> Atenção, seu dispositivo está descarregando (@ViewBag.AlertaBateria%). Conecte-o em um carregador para que não perca a conexão com a plataforma.</span>
+            </div>
+        </div>
+    }
+}

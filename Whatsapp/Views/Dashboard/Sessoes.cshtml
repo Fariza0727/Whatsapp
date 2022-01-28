@@ -1,0 +1,94 @@
+﻿@{ 
+    var data = ViewBag.Data as List<Whatsapp.Data.MainModels.Sessao>;
+    var opcoes = ViewBag.Opcoes as List<Whatsapp.Data.MainModels.Opcao>;
+}
+<div class="app-content content ">
+    <div class="content-overlay"></div>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-wrapper container-xxl p-0">
+        <div class="content-header row">
+            <div class="content-header-left col-md-9 col-12 mb-2">
+                <div class="row breadcrumbs-top">
+                    <div class="col-12">
+                        <h2 class="content-header-title float-start mb-0">Sessões</h2>
+                        <div class="breadcrumb-wrapper">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="@Url.Action("Index","Dashboard")">Dashboard</a>
+                                </li>
+                                <li class="breadcrumb-item">
+                                    <a href="@Url.Action("Chatbot","Dashboard")">Chatbot</a>
+                                </li>
+                                <li class="breadcrumb-item active">
+                                    Sessões
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="content-header-right text-md-end col-md-3 col-12 d-md-block d-none">
+                <div class="mb-1 breadcrumb-right">
+                    <div class="dropdown">
+                        <button class="btn-icon btn btn-primary btn-round btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i data-feather="grid"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end">
+                            <a class="dropdown-item" href="@Url.Action("AdicionarSessao","Dashboard")">
+                                <i class="me-1" data-feather="check-square"></i>
+                                <span class="align-middle">Adicionar Sessão</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="content-body">
+            <!-- Blog List -->
+            <div class="blog-list-wrapper">
+                <!-- Blog List Items -->
+                <div class="row">
+                    @{
+                        foreach (var item in data)
+                        {
+                            var o = opcoes.Where(p => p.Sessao == item.ID).ToList().Count();
+                            <div class="col-md-4 col-12">
+                                                    <div class="card">
+                                                        @if (item.Imagem != null)
+                                                        {
+                                                            <a href="@Url.Action("EditarSessao","Dashboard", new { ID = item.ID })">
+                                                                <img class="card-img-top img-fluid" src="data:image/jpeg;base64,@item.Imagem" alt="Blog Post pic" />
+                                                            </a>
+                                                        }
+                                                        <div class="card-body">
+                                                            <h4 class="card-title">
+                                                                <a href="@Url.Action("EditarSessao","Dashboard", new { ID = item.ID })" class="blog-title-truncate text-body-heading">@item.Titulo</a>
+                                                            </h4>
+                                                            <p class="card-text">
+                                                                @Html.Raw(item.Texto.Replace("\r\n", "<br>"))
+                                                            </p>
+                                                            <hr />
+                                                            <div class="d-flex justify-content-between align-items-center">
+                                                                <a href="@Url.Action("EditarOpcoes","Dashboard",new { ID = item.ID })">
+                                                                    <div class="d-flex align-items-center">
+                                                                        <i data-feather="message-square" class="font-medium-1 text-body me-50"></i>
+                                                                        <span class="text-body fw-bold">@o opções</span>
+                                                                    </div>
+                                                                </a>
+                                                                <a href="@Url.Action("EditarSessao","Dashboard", new { ID = item.ID })" class="fw-bold">Editar Sessão</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                            </div>
+                        }
+                    }
+                </div>
+                <!--/ Blog List Items -->
+            </div>
+            <!--/ Blog List -->
+
+        </div>
+    </div>
+</div>

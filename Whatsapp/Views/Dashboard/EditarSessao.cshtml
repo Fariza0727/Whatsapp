@@ -1,0 +1,108 @@
+﻿@model Whatsapp.Models.DashboardViewModels.SessaoViewModel;
+@{ 
+
+    ViewData["Config"] = "active";
+}
+<div class="app-content content ">
+    <div class="content-overlay"></div>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-wrapper container-xxl p-0">
+        <div class="content-header row">
+            <div class="content-header-left col-md-9 col-12 mb-2">
+                <div class="row breadcrumbs-top">
+                    <div class="col-12">
+                        <h2 class="content-header-title float-start mb-0">Editar Sessão</h2>
+                        <div class="breadcrumb-wrapper">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="@Url.Action("Index","Dashboard")">Dashboard</a>
+                                </li>
+                                <li class="breadcrumb-item">
+                                    <a href="@Url.Action("Chatbot","Dashboard")">Chatbot</a>
+                                </li>
+                                <li class="breadcrumb-item active">
+                                    <a href="@Url.Action("Sessoes","Dashboard")">Sessões</a>
+                                </li>
+                                <li class="breadcrumb-item active">
+                                    Editar Sessão
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="content-body">
+            <!-- Blog Edit -->
+            <div class="blog-edit-wrapper">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <!-- Form -->
+                                <form class="mt-2" asp-action="EditarSessao" asp-controller="Dashboard" enctype="multipart/form-data">
+                                    <div class="row">
+
+                                        <div class="col-12 mb-2">
+                                            <div class="border rounded p-2">
+                                                <h4 class="mb-1">Imagem</h4>
+                                                <div class="d-flex flex-column flex-md-row">
+                                                    @if (Model.Imagem != null)
+                                                    {
+                                                        <img src="data:image/jpeg;base64,@Model.Imagem" id="blog-feature-image" class="rounded me-2 mb-1 mb-md-0" width="170" height="110" alt="Blog Featured Image" />
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <img src="https://i.imgur.com/u3qh5aX.png" id="blog-feature-image" class="rounded me-2 mb-1 mb-md-0" width="170" height="110" alt="Blog Featured Image" />
+
+                                                    }
+                                                    <div class="featured-info">
+                                                        <small class="text-muted">Selecione uma imagem para enviar junto com a mensagem</small>
+                                                       <br /><br />
+                                                             <div class="d-inline-block">
+                                                                 <input class="form-control" type="file" id="blogCustomFile" accept="image/*" asp-for="Arquivo" />
+                                                                 <div class="form-check form-switch">
+                                                                     <input type="checkbox" class="form-check-input" asp-for="SemImagem"/>
+                                                                     <label class="form-check-label" for="customSwitch2">Não exibir imagem</label>
+                                                                 </div>
+                                                             </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-12">
+                                            <div class="mb-2">
+                                                <label class="form-label" for="blog-edit-title">Título</label>
+                                                <input type="text" id="blog-edit-title" class="form-control" asp-for="Titulo" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <div class="mb-2">
+                                                <label class="form-label">Texto</label>
+                                                <textarea asp-for="Texto" class="form-control"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 mt-50">
+                                            <button type="submit" class="btn btn-primary me-1">Salvar Edição</button>
+                                            <a href="@Url.Action("RemoverSessao","Dashboard", new { ID = Model.ID })">
+                                                <button type="button" class="btn btn-danger me-1">Remover Sessão</button>
+                                            </a>
+                                        </div>
+
+                                    </div>
+                                </form>
+                                <!--/ Form -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/ Blog Edit -->
+
+        </div>
+    </div>
+</div>

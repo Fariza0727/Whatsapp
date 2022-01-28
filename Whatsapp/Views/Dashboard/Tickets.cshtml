@@ -1,0 +1,183 @@
+﻿@{
+    var tickets = ViewBag.Tickets as List<Whatsapp.Data.MainModels.Ticket>;
+    var clientes = ViewBag.Clientes as List<Whatsapp.Data.MainModels.Cliente>;
+    var atendentes = ViewBag.Atendentes as List<Whatsapp.Data.MainModels.Usuario>;
+
+    ViewData["Tickets"] = "active";
+}
+
+<div class="app-content content ">
+    <div class="content-overlay"></div>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-wrapper container-xxl p-0">
+        <div class="content-header row">
+            <div class="content-header-left col-md-9 col-12 mb-2">
+                <div class="row breadcrumbs-top">
+                    <div class="col-12">
+                        <h2 class="content-header-title float-start mb-0">Tickets</h2>
+                        <div class="breadcrumb-wrapper">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="@Url.Action("Index","Dashboard")">Dashboard</a>
+                                </li>
+                                <li class="breadcrumb-item active">
+                                    Tickets
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="content-body">
+            <div class="row">
+                <div class="col-12">
+                    <p>Monitore e faça a gestão dos seus tickets por status de espera</p>
+                </div>
+            </div>
+            <br />
+
+            <!-- Basic table -->
+            <section id="basic-datatable">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer" style="padding-right: 25px;padding-top: 25px;padding-left: 25px;padding-bottom: 25px;">
+                                <div class="card-header border-bottom p-1">
+                                    <div class="head-label">
+                                        <h3 class="mb-0">Todos os Tickets (0)</h3><br />
+                                    </div>
+                                    <div class="dt-action-buttons text-end">
+
+                                        <div class="dt-buttons d-inline-flex">
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <table class="datatables-basic table dataTable no-footer dtr-column" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="width: 1322px;">
+                                    <thead>
+                                        <tr role="row">
+
+                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 293px;" aria-label="Email: activate to sort column ascending">Protocolo</th>
+                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 304px;" aria-label="Name: activate to sort column ascending">Nome</th>
+                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 293px;" aria-label="Email: activate to sort column ascending">Telefone</th>
+                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 89px;" aria-label="Date: activate to sort column ascending">Status</th>
+                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 89px;" aria-label="Date: activate to sort column ascending">Início</th>
+                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 89px;" aria-label="Date: activate to sort column ascending">Término</th>
+                                            <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 80px;" aria-label="Actions"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            foreach (var item in tickets.OrderByDescending(p => p.Inicio))
+                                            {
+                                                var atendente = "BOT";
+                                                if(atendentes.Where(p => p.Email == item.Atendente).Count() != 0) {
+                                                    atendente = atendentes.First(p => p.Email == item.Atendente).Nome;
+                                                }
+
+                                                                                <tr class="odd">
+
+                                                                                    <td><a href="@Url.Action("VisualizarTicket", "Dashboard", new { ID = item.ID })">@item.Protocolo</a></td>
+                                                                                    <td>
+                                                                                        <div class="d-flex justify-content-left align-items-center">
+                                                                                            <div class="d-flex flex-column">
+                                                                                                <span class="emp_name text-truncate fw-bold">@item.Nome</span>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>@item.Telefone</td>
+                                                                                    <td>@item.Status</td>
+                                                                                    <td>@item.Inicio</td>
+                                                                                    <td>@item.Termino</td>
+                                                                                    <td>
+                                                                                        <div class="d-inline-flex">
+                                                                                            <a class="pe-1 dropdown-toggle hide-arrow text-primary" data-bs-toggle="dropdown">
+                                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical font-small-4">
+                                                                                                    <circle cx="12" cy="12" r="1"></circle>
+                                                                                                    <circle cx="12" cy="5" r="1"></circle>
+                                                                                                    <circle cx="12" cy="19" r="1"></circle>
+                                                                                                </svg>
+                                                                                            </a>
+                                                                                            @{
+                                                                                                if (item.Status == "Encerrado")
+                                                                                                {
+                                                                                                    <div class="dropdown-menu dropdown-menu-end">
+                                                                                                        <a href="@Url.Action("VisualizarTicket", "Dashboard", new { ID = item.ID })" class="dropdown-item">
+                                                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text font-small-4 me-50">
+                                                                                                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                                                                                                <polyline points="14 2 14 8 20 8"></polyline>
+                                                                                                                <line x1="16" y1="13" x2="8" y2="13"></line>
+                                                                                                                <line x1="16" y1="17" x2="8" y2="17"></line>
+                                                                                                                <polyline points="10 9 9 9 8 9"></polyline>
+                                                                                                            </svg>Visualizar
+                                                                                                        </a>
+                                                                                                    </div>
+                                                                                                }
+                                                                                            }
+
+                                                                                        </div>
+
+                                                                                    </td>
+                                                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal to add new record -->
+                <div class="modal modal-slide-in fade" id="modals-slide-in">
+                    <div class="modal-dialog sidebar-sm">
+                        <form class="add-new-record modal-content pt-0">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">×</button>
+                            <div class="modal-header mb-1">
+                                <h5 class="modal-title" id="exampleModalLabel">New Record</h5>
+                            </div>
+                            <div class="modal-body flex-grow-1">
+                                <div class="mb-1">
+                                    <label class="form-label" for="basic-icon-default-fullname">Full Name</label>
+                                    <input type="text" class="form-control dt-full-name" id="basic-icon-default-fullname" placeholder="John Doe" aria-label="John Doe" />
+                                </div>
+                                <div class="mb-1">
+                                    <label class="form-label" for="basic-icon-default-post">Post</label>
+                                    <input type="text" id="basic-icon-default-post" class="form-control dt-post" placeholder="Web Developer" aria-label="Web Developer" />
+                                </div>
+                                <div class="mb-1">
+                                    <label class="form-label" for="basic-icon-default-email">Email</label>
+                                    <input type="text" id="basic-icon-default-email" class="form-control dt-email" placeholder="john.doe@example.com" aria-label="john.doe@example.com" />
+                                    <small class="form-text"> You can use letters, numbers & periods </small>
+                                </div>
+                                <div class="mb-1">
+                                    <label class="form-label" for="basic-icon-default-date">Joining Date</label>
+                                    <input type="text" class="form-control dt-date" id="basic-icon-default-date" placeholder="MM/DD/YYYY" aria-label="MM/DD/YYYY" />
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label" for="basic-icon-default-salary">Salary</label>
+                                    <input type="text" id="basic-icon-default-salary" class="form-control dt-salary" placeholder="$12000" aria-label="$12000" />
+                                </div>
+                                <button type="button" class="btn btn-primary data-submit me-1">Submit</button>
+                                <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+            <!--/ Basic table -->
+
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    window.onload = function () {
+        $('.datatables-basic').DataTable({
+            ordering: false
+        });
+    };
+</script>
+

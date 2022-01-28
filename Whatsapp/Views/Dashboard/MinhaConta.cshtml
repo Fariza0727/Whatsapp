@@ -1,0 +1,75 @@
+﻿@model Whatsapp.Models.DashboardViewModels.MinhaContaViewModel;
+@{ 
+
+    ViewData["MinhaConta"] = "active";
+}
+<div class="app-content content ">
+    <div class="content-overlay"></div>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-wrapper container-xxl p-0">
+        <div class="content-header row">
+            <div class="content-header-left col-md-9 col-12 mb-2">
+                <div class="row breadcrumbs-top">
+                    <div class="col-12">
+                        <h2 class="content-header-title float-start mb-0">Minha Conta</h2>
+                        <div class="breadcrumb-wrapper">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="@Url.Action("Index","Dashboard")">Dashboard</a>
+                                </li>
+                                <li class="breadcrumb-item active">
+                                    Minha Conta
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+         
+        </div>
+        <div class="content-body">
+            <div class="row">
+                <div class="col-12">
+
+                    <!-- profile -->
+                    <div class="card">
+                        <div class="card-header border-bottom">
+                            <h4 class="card-title">Alterar Dados</h4>
+                        </div>
+                        <div class="card-body">
+                            <!-- header section -->
+                            
+                            <!--/ header section -->
+                            <!-- form -->
+                            <form class="validate-form mt-2 pt-50" asp-controller="Dashboard" asp-action="MinhaConta">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label class="form-label" for="accountFirstName">Nome</label>
+                                        <input type="text" class="form-control" asp-for="Nome" />
+                                    </div>
+                                    <div class="col-12 ">
+                                        <label class="form-label" for="accountEmail">Email</label>
+                                        <input type="text" class="form-control"  asp-for="Email"/>
+                                    </div>
+                                    <div class="col-12 ">
+                                        <label class="form-label" for="accountLastName">Nova Senha</label>
+                                        <input type="text" class="form-control"  asp-for="Senha"/>
+                                    </div>
+                                    <div class="col-12">
+                                        <button type="submit" class="btn btn-primary mt-1 me-1">Salvar Alterações</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <!--/ form -->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script src="~/app-assets/js/scripts/pages/page-account-settings-account.js"></script>

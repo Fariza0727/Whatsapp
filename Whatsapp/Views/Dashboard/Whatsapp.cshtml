@@ -1,0 +1,437 @@
+﻿@{
+    ViewData["Whatsapp"] = "active";
+    ViewData["Title"] = "Whatsapp Web";
+    var w = ViewBag.WhatsappInfo as Whatsapp.Data.MainModels.Whatsapp;
+    var imagem = "/app-assets/images/semfoto.jpg";
+    if (w != null) { imagem = w.Imagem; }
+}
+@{
+}
+<div class="app-content content chat-application">
+    <div id="Alertas"></div>
+    <div class="content-overlay"></div>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-area-wrapper container-xxl p-0">
+        <div class="sidebar-left">
+            <div class="sidebar">
+                <!-- Admin user profile area -->
+                <div class="chat-profile-sidebar">
+                    <header class="chat-profile-header">
+                        <span class="close-icon">
+                            <i data-feather="x"></i>
+                        </span>
+                        <!-- User Information -->
+                        <div class="header-profile-sidebar">
+                            <div class="avatar box-shadow-1 avatar-xl avatar-border">
+                                <img src="../../../app-assets/images/portrait/small/avatar-s-11.jpg" alt="user_avatar" />
+                                <span class="avatar-status-online avatar-status-xl"></span>
+                            </div>
+                            <h4 class="chat-user-name">John Doe</h4>
+                            <span class="user-post">Admin</span>
+                        </div>
+                        <!--/ User Information -->
+                    </header>
+                    <!-- User Details start -->
+                    <div class="profile-sidebar-area">
+                        <h6 class="section-label mb-1">About</h6>
+                        <div class="about-user">
+                            <textarea data-length="120" class="form-control char-textarea" id="textarea-counter" rows="5" placeholder="About User">
+Dessert chocolate cake lemon drops jujubes. Biscuit cupcake ice cream bear claw brownie brownie marshmallow.</textarea>
+                            <small class="counter-value float-end"><span class="char-count">108</span> / 120 </small>
+                        </div>
+                        <!-- To set user status -->
+                        <h6 class="section-label mb-1 mt-3">Status</h6>
+                        <ul class="list-unstyled user-status">
+                            <li class="pb-1">
+                                <div class="form-check form-check-success">
+                                    <input type="radio" id="activeStatusRadio" name="userStatus" class="form-check-input" value="online" checked />
+                                    <label class="form-check-label ms-25" for="activeStatusRadio">Active</label>
+                                </div>
+                            </li>
+                            <li class="pb-1">
+                                <div class="form-check form-check-danger">
+                                    <input type="radio" id="dndStatusRadio" name="userStatus" class="form-check-input" value="busy" />
+                                    <label class="form-check-label ms-25" for="dndStatusRadio">Do Not Disturb</label>
+                                </div>
+                            </li>
+                            <li class="pb-1">
+                                <div class="form-check form-check-warning">
+                                    <input type="radio" id="awayStatusRadio" name="userStatus" class="form-check-input" value="away" />
+                                    <label class="form-check-label ms-25" for="awayStatusRadio">Away</label>
+                                </div>
+                            </li>
+                            <li class="pb-1">
+                                <div class="form-check form-check-secondary">
+                                    <input type="radio" id="offlineStatusRadio" name="userStatus" class="form-check-input" value="offline" />
+                                    <label class="form-check-label ms-25" for="offlineStatusRadio">Offline</label>
+                                </div>
+                            </li>
+                        </ul>
+                        <!--/ To set user status -->
+                        <!-- User settings -->
+                        <h6 class="section-label mb-1 mt-2">Settings</h6>
+                        <ul class="list-unstyled">
+                            <li class="d-flex justify-content-between align-items-center mb-1">
+                                <div class="d-flex align-items-center">
+                                    <i data-feather="check-square" class="me-75 font-medium-3"></i>
+                                    <span class="align-middle">Two-step Verification</span>
+                                </div>
+                                <div class="form-check form-switch me-0">
+                                    <input type="checkbox" class="form-check-input" id="customSwitch1" checked />
+                                    <label class="form-check-label" for="customSwitch1"></label>
+                                </div>
+                            </li>
+                            <li class="d-flex justify-content-between align-items-center mb-1">
+                                <div class="d-flex align-items-center">
+                                    <i data-feather="bell" class="me-75 font-medium-3"></i>
+                                    <span class="align-middle">Notification</span>
+                                </div>
+                                <div class="form-check form-switch me-0">
+                                    <input type="checkbox" class="form-check-input" id="customSwitch2" />
+                                    <label class="form-check-label" for="customSwitch2"></label>
+                                </div>
+                            </li>
+                            <li class="mb-1 d-flex align-items-center cursor-pointer">
+                                <i data-feather="user" class="me-75 font-medium-3"></i>
+                                <span class="align-middle">Invite Friends</span>
+                            </li>
+                            <li class="d-flex align-items-center cursor-pointer">
+                                <i data-feather="trash" class="me-75 font-medium-3"></i>
+                                <span class="align-middle">Delete Account</span>
+                            </li>
+                        </ul>
+                        <!--/ User settings -->
+                        <!-- Logout Button -->
+                        <div class="mt-3">
+                            <button class="btn btn-primary">
+                                <span>Logout</span>
+                            </button>
+                        </div>
+                        <!--/ Logout Button -->
+                    </div>
+                    <!-- User Details end -->
+                </div>
+                <!--/ Admin user profile area -->
+                <!-- Chat Sidebar area -->
+                <div class="sidebar-content">
+                    <span class="sidebar-close-icon">
+                        <i data-feather="x"></i>
+                    </span>
+                    <!-- Sidebar header start -->
+                    <div class="chat-fixed-search">
+                        <div class="d-flex align-items-center w-100">
+                            <div class="sidebar-profile-toggle">
+                                <div class="avatar avatar-border">
+                                    <img src="@imagem" alt="user_avatar" height="42" width="42" />
+                                    <span class="avatar-status-online"></span>
+                                </div>
+                            </div>
+                            <div class="input-group input-group-merge ms-1 w-100">
+                                <span class="input-group-text round"><i data-feather="search" class="text-muted"></i></span>
+                                <input type="text" class="form-control round" id="chat-search" placeholder="Buscar chat" aria-label="Search..." aria-describedby="chat-search" />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Sidebar header end -->
+                    <!-- Sidebar Users start -->
+                    <div id="users-list" class="chat-user-list-wrapper list-group">
+
+                    </div>
+                    <!-- Sidebar Users end -->
+                </div>
+                <!--/ Chat Sidebar area -->
+
+            </div>
+        </div>
+        <div class="content-right" id="chat">
+            <div class="content-wrapper container-xxl p-0">
+                <div class="content-header row">
+                </div>
+                <div class="content-body">
+                    <div class="body-content-overlay"></div>
+                    <!-- Main chat area -->
+                    <section class="chat-app-window">
+                        <!-- To load Conversation -->
+                        <div class="start-chat-area">
+                            <div class="mb-1 start-chat-icon">
+                                <i data-feather="message-square"></i>
+                            </div>
+                            <a href="@Url.Action("Tickets","Dashboard")">
+                                <h4 class="">Selecione um Ticket</h4>
+                            </a>
+                        </div>
+                        <!--/ To load Conversation -->
+                    </section>
+                    <!--/ Main chat area -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var naoLidasAnterior = 0;
+</script>
+<script type="text/javascript">
+    window.addEventListener("load", function () {
+        carregarChats();
+    });
+    function carregarChats() {
+        $.ajax({
+            'type': 'get',
+            'contentType': 'text/plain',
+            'url': '/Dashboard/Chats/',
+            'dataType': 'html',
+        }).done(function (data) {
+            $('#users-list').html(data);
+            js();
+        }).fail(function (error) {
+            console.log(error);
+        });
+
+        $.ajax({
+            'type': 'get',
+            'contentType': 'text/plain',
+            'url': '/Dashboard/VerificarAlertas/',
+            'dataType': 'html',
+        }).done(function (data) {
+            $('#Alertas').html(data);
+        }).fail(function (error) {
+            console.log(error);
+        });
+
+        setTimeout(carregarChats, 3000);
+    }
+
+    function js() {
+        // Chat sidebar toggle
+        function sidebarToggleFunction() {
+            if (sidebarToggle.length) {
+                sidebarToggle.on('click', function () {
+                    sidebarContent.addClass('show');
+                    overlay.addClass('show');
+                });
+            }
+        }
+        $(function () {
+            var chatUsersListWrapper = $('.chat-application .chat-user-list-wrapper'),
+                profileSidebar = $('.chat-application .chat-profile-sidebar'),
+                profileSidebarArea = $('.chat-application .profile-sidebar-area'),
+                profileToggle = $('.chat-application .sidebar-profile-toggle'),
+                userProfileToggle = $('.chat-application .user-profile-toggle'),
+                userProfileSidebar = $('.user-profile-sidebar'),
+                statusRadio = $('.chat-application .user-status input:radio[name=userStatus]'),
+                userChats = $('.user-chats'),
+                chatsUserList = $('.chat-users-list'),
+                chatList = $('.chat-list'),
+                contactList = $('.contact-list'),
+                closeIcon = $('.chat-application .close-icon'),
+                sidebarCloseIcon = $('.chat-application .sidebar-close-icon'),
+                menuToggle = $('.chat-application .menu-toggle'),
+                speechToText = $('.speech-to-text'),
+                chatSearch = $('.chat-application #chat-search');
+
+            // init ps if it is not touch device
+            if (!$.app.menu.is_touch_device()) {
+                // Chat user list
+                if (chatUsersListWrapper.length > 0) {
+                    var chatUserList = new PerfectScrollbar(chatUsersListWrapper[0]);
+                }
+
+                // Admin profile left
+                if (userProfileSidebar.find('.user-profile-sidebar-area').length > 0) {
+                    var userScrollArea = new PerfectScrollbar(userProfileSidebar.find('.user-profile-sidebar-area')[0]);
+                }
+
+                // Chat area
+                if (userChats.length > 0) {
+                    var chatsUser = new PerfectScrollbar(userChats[0], {
+                        wheelPropagation: false
+                    });
+                }
+
+                // User profile right area
+                if (profileSidebarArea.length > 0) {
+                    var user_profile = new PerfectScrollbar(profileSidebarArea[0]);
+                }
+            } else {
+                chatUsersListWrapper.css('overflow', 'scroll');
+                userProfileSidebar.find('.user-profile-sidebar-area').css('overflow', 'scroll');
+                userChats.css('overflow', 'scroll');
+                profileSidebarArea.css('overflow', 'scroll');
+
+                // on user click sidebar close in touch devices
+                $(chatsUserList)
+                    .find('li')
+                    .on('click', function () {
+                        $(sidebarContent).removeClass('show');
+                        $(overlay).removeClass('show');
+                    });
+            }
+
+            // Chat Profile sidebar & overlay toggle
+            if (profileToggle.length) {
+                profileToggle.on('click', function () {
+                    profileSidebar.addClass('show');
+                    overlay.addClass('show');
+                });
+            }
+
+            // Update status by clicking on Radio
+            if (statusRadio.length) {
+                statusRadio.on('change', function () {
+                    var $className = 'avatar-status-' + this.value,
+                        profileHeaderAvatar = $('.header-profile-sidebar .avatar span');
+                    profileHeaderAvatar.removeClass();
+                    profileToggle.find('.avatar span').removeClass();
+                    profileHeaderAvatar.addClass($className + ' avatar-status-lg');
+                    profileToggle.find('.avatar span').addClass($className);
+                });
+            }
+
+            // On Profile close click
+            if (closeIcon.length) {
+                closeIcon.on('click', function () {
+                    profileSidebar.removeClass('show');
+                    userProfileSidebar.removeClass('show');
+                    if (!sidebarContent.hasClass('show')) {
+                        overlay.removeClass('show');
+                    }
+                });
+            }
+
+            // On sidebar close click
+            if (sidebarCloseIcon.length) {
+                sidebarCloseIcon.on('click', function () {
+                    sidebarContent.removeClass('show');
+                    overlay.removeClass('show');
+                });
+            }
+
+            // User Profile sidebar toggle
+            if (userProfileToggle.length) {
+                userProfileToggle.on('click', function () {
+                    userProfileSidebar.addClass('show');
+                    overlay.addClass('show');
+                });
+            }
+
+            // On overlay click
+            if (overlay.length) {
+                overlay.on('click', function () {
+                    sidebarContent.removeClass('show');
+                    overlay.removeClass('show');
+                    profileSidebar.removeClass('show');
+                    userProfileSidebar.removeClass('show');
+                });
+            }
+
+            // Add class active on click of Chat users list
+            if (chatUsersListWrapper.find('ul li').length) {
+                chatUsersListWrapper.find('ul li').on('click', function () {
+                    var $this = $(this),
+                        startArea = $('.start-chat-area'),
+                        activeChat = $('.active-chat');
+
+                    if (chatUsersListWrapper.find('ul li').hasClass('active')) {
+                        chatUsersListWrapper.find('ul li').removeClass('active');
+                    }
+
+                    $this.addClass('active');
+                    $this.find('.badge').remove();
+
+                    if (chatUsersListWrapper.find('ul li').hasClass('active')) {
+                        startArea.addClass('d-none');
+                        activeChat.removeClass('d-none');
+                    } else {
+                        startArea.removeClass('d-none');
+                        activeChat.addClass('d-none');
+                    }
+                });
+            }
+
+            // auto scroll to bottom of Chat area
+            chatsUserList.find('li').on('click', function () {
+                userChats.animate({ scrollTop: userChats[0].scrollHeight }, 400);
+            });
+
+
+            // Main menu toggle should hide app menu
+            if (menuToggle.length) {
+                menuToggle.on('click', function (e) {
+                    sidebarContent.removeClass('show');
+                    overlay.removeClass('show');
+                    profileSidebar.removeClass('show');
+                    userProfileSidebar.removeClass('show');
+                });
+            }
+
+            if ($(window).width() < 992) {
+                sidebarToggleFunction();
+            }
+
+            // Filter
+            if (chatSearch.length) {
+                chatSearch.on('keyup', function () {
+                    var value = $(this).val().toLowerCase();
+                    if (value !== '') {
+                        // filter chat list
+                        chatList.find('li:not(.no-results)').filter(function () {
+                            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                        });
+                        // filter contact list
+                        contactList.find('li:not(.no-results)').filter(function () {
+                            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                        });
+                        var chat_tbl_row = chatList.find('li:not(.no-results):visible').length,
+                            contact_tbl_row = contactList.find('li:not(.no-results):visible').length;
+
+                        // check if chat row available
+                        if (chat_tbl_row == 0) {
+                            chatList.find('.no-results').addClass('show');
+                        } else {
+                            if (chatList.find('.no-results').hasClass('show')) {
+                                chatList.find('.no-results').removeClass('show');
+                            }
+                        }
+
+                        // check if contact row available
+                        if (contact_tbl_row == 0) {
+                            contactList.find('.no-results').addClass('show');
+                        } else {
+                            if (contactList.find('.no-results').hasClass('show')) {
+                                contactList.find('.no-results').removeClass('show');
+                            }
+                        }
+                    } else {
+                        // If filter box is empty
+                        chatsUserList.find('li').show();
+                        if (chatUsersListWrapper.find('.no-results').hasClass('show')) {
+                            chatUsersListWrapper.find('.no-results').removeClass('show');
+                        }
+                    }
+                });
+            }
+
+        });
+    }
+</script>
+<script>
+    window.onload = function () {
+
+        document.getElementsByClassName('header-navbar-shadow')[0].style.display = 'none';
+        document.getElementsByClassName('navbar')[0].style.display = 'none';
+        document.getElementsByClassName('app-content')[0].style.paddingTop = '25px';
+        document.getElementsByClassName('footer')[0].style.display = 'none';
+    }
+</script>
+@{
+    if (ViewData["AbrirTicket"] != null)
+    {
+        <script>
+        setTimeout(function () {
+            abrirTicket('@ViewData["AbrirTicket"]');
+        }, 1000);
+        </script>
+    }
+}

@@ -1,0 +1,153 @@
+﻿@{ 
+    Layout = "";
+    var mensagens = ViewBag.ChatMensagens as List<Whatsapp.API.Models.Mensagem>;
+}
+
+<div class="chats">
+    @{
+        foreach (var item in mensagens)
+        {
+            var left = "";
+            if (!item.FromMe) { left = "chat-left"; }
+
+            <div class="chat @left">
+                <div class="chat-avatar">
+                    <span class="avatar box-shadow-1 cursor-pointer">
+                        <img src="@item.ImagemRemetente" alt="avatar" height="36" width="36" />
+                    </span>
+                </div>
+                <div class="chat-body">
+                    <div class="chat-content" id="@item.ID">
+                        @if (item.Quoted != null && item.Quoted != "")
+                        {
+                            <div style="min-width:40px;min-height:40px;border-color: floralwhite;border-style: ridge;border-width: thin;padding: 10px;margin: 10px;">@item.NomeRemetente:@item.Quoted</div>
+                           
+                        }
+                        @if (item.Tipo == "audio" || item.Tipo == "ptt")
+                        {
+                            if (item.B64Media != "")
+                            {
+                                <audio controls="">
+                                    <source src="@item.B64Media" type="audio/ogg">
+                                </audio>
+
+                            }
+                            else
+                            {
+                                <p><h6>Não foi possível carregar o audio</h6></p>
+                            }
+                        }
+                        else if (item.Tipo == "image")
+                        {
+                            <p>
+                                <img src="@item.B64Media" style="max-height: 600px; max-width:500px;" />
+                                @if (item.caption != null)
+                                {<br /> @Html.Raw(item.caption.Replace("\n", "<br>"))}
+                            </p>
+                        }
+                        else if (item.Tipo == "document")
+                        {
+                            <a href="@item.B64Media" download="@item.caption">
+
+                                <button type="button" class="btn btn-warning">
+                                    <i data-feather="download" class="me-25"></i>
+                                    <span>Baixar Documento (@item.mimetype)</span>
+                                </button>
+                            </a>
+
+                        }
+                        else if (item.Tipo == "sticker")
+                        {
+                            <p><img src="@item.B64Media" style="max-height: 150px; max-width:150px;" /></p>
+
+                        }
+                        else if (item.Tipo == "vcard")
+                        {
+                            <p>
+                                VCARD
+                            </p>
+                        }
+                        else if (item.Tipo == "location")
+                        {
+
+                            <style>
+                                                    #@item.ID.Split('@')[0] {
+                                                        height: 300px;
+                                                        width: 300px;
+                                                    }
+                            </style>
+                            <div id="@item.ID.Split('@')[0]"></div>
+                            <script>
+                                                    function initMap() {
+                                                        var myLatLng = {
+                                                            lat: @item.lat,
+                                                            lng: @item.lng
+                                                        };
+
+                                                        var map = new google.maps.Map(document.getElementById('@item.ID.Split('@')[0]'), {
+                                                            zoom: 15,
+                                                            center: myLatLng
+                                                        });
+
+                                                        var marker = new google.maps.Marker({
+                                                            position: myLatLng,
+                                                            map: map,
+                                                        });
+                                                    } initMap();
+                            </script>
+
+                        }
+                        else if (item.Tipo == "video")
+                        {
+
+                            <video controls="" style="max-height: 600px; max-width:500px;">
+                                <source src="@item.B64Media" type="video/mp4">
+                            </video>
+                        }
+                        else if (item.Tipo == "gif")
+                        {
+                            <p>
+                                GIF
+                            </p>
+                        }
+                        else
+                        {
+                            <p>@item.Texto</p>
+                        }
+                        <span style="font-size: 10px; float: right">@item.Horario.ToString("HH:mm")</span>
+                    </div>
+                    @if (!item.FromMe)
+                    {
+                        <img onclick="Reply('@item.ID')" src="https://i.imgur.com/S9PkApn.png" style="margin-left:10px; margin-top:10px; cursor:pointer">
+                    }
+                </div>
+            </div>
+        }
+    }
+</div>
+<script>
+
+    var lastReply = "";
+    function Reply(a) {
+        var idEl = document.getElementById("reply");
+        var bgEl = document.getElementById(a);
+
+        if (idEl.value == a) {
+            idEl.value = '';
+            bgEl.style = "background-color:#FFF;"
+        } else {
+
+            if (lastReply !== "") {
+                var lastEl = document.getElementById(lastReply);
+                lastEl.style = "background-color:#FFF;"
+            }
+
+
+            lastReply = a;
+            idEl.value = a;
+            bgEl.style = "background-color:#C2AFFF;"
+        }
+
+    }
+
+</script>

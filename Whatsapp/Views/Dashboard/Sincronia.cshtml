@@ -1,0 +1,108 @@
+﻿@{
+    ViewData["Config"] = "active";
+    var instancia = ViewBag.Instancia as Whatsapp.API.Models.Instancia;
+}
+
+<div class="app-content content ">
+    <div class="content-overlay"></div>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-wrapper container-xxl p-0">
+        <div class="content-header row">
+            <div class="content-header-left col-md-9 col-12 mb-2">
+                <div class="row breadcrumbs-top">
+                    <div class="col-12">
+                        <h2 class="content-header-title float-start mb-0">Configurações</h2>
+                        <div class="breadcrumb-wrapper">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="@Url.Action("Index","Dashboard")">Dashboard</a>
+                                </li>
+                                <li class="breadcrumb-item active">
+                                    Sincronia de Whatsapp
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="content-body">
+            <div class="row">
+                <div class="col-12">
+                    <p>Faça a sincronia com o seu dispositivo.</p>
+                </div>
+            </div>
+            <br />
+
+            <!-- Conteudo -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-profile">
+                        @{
+                            if (!instancia.Conectado)
+                            {
+                                <div class="card-body">
+                                    <div class="profile-image-wrapper">
+                                        <div class="profile-image">
+                                            <div class="avatar">
+                                                <img src="~/app-assets/images/semfoto.jpg" alt="Profile Picture">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h3>Whatsapp Desconectado</h3>
+                                    <h6 class="text-muted">Sincronize seu whatsapp pelo dispositivo através do QrCode</h6><br />
+
+                                    <div id="qrcode">Aguarde...</div>
+                                    <hr class="mb-2">
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="card-body">
+                                    <div class="profile-image-wrapper">
+                                        <div class="profile-image">
+                                            <div class="avatar">
+                                                <img src="@instancia.Whatsapp.Imagem" alt="Profile Picture">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h3>@instancia.Whatsapp.Nome</h3>
+                                    <h6 class="text-muted">@instancia.Whatsapp.Numero</h6><br />
+                                    <h6 class="text-muted">@instancia.Whatsapp.Dispositivo</h6><br />
+                                    <h6 class="text-muted">@instancia.Whatsapp.Plataforma</h6><br />
+                                    <hr class="mb-2">
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@{
+    if (!instancia.Conectado)
+    {
+        <script type="text/javascript">
+            setInterval(function () {
+                $.ajax({
+                    'type': 'get',
+                    'contentType': 'text/plain',
+                    'url': '/Dashboard/QrCode',
+                    'dataType': 'html',
+                    'timeout': 50000
+                }).done(function (data) {
+                    // success
+                    $('#qrcode').html(data);
+                }).fail(function (error) {
+                    // something went wrong
+                    console.log(error);
+                });
+
+            }, 3000);
+        </script>
+    }
+}

@@ -1,0 +1,24 @@
+﻿@model Whatsapp.Models.DashboardViewModels.AtendenteViewModel;
+
+<form class="add-new-record modal-content pt-0" asp-controller="Dashboard" asp-action="NovoAtendente">
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">×</button>
+    <div class="modal-header mb-1">
+        <h5 class="modal-title" id="exampleModalLabel">Novo Atendente</h5>
+    </div>
+    <div class="modal-body flex-grow-1">
+        <div class="mb-1">
+            <label class="form-label" for="basic-icon-default-fullname">Nome</label>
+            <input type="text" class="form-control dt-full-name" asp-for="Nome" placeholder="John Doe" aria-label="John Doe" />
+        </div>
+        <div class="mb-1">
+            <label class="form-label" for="basic-icon-default-email">Email</label>
+            <input type="text" id="basic-icon-default-email" class="form-control dt-email" asp-for="Email" placeholder="john.doe@example.com" aria-label="john.doe@example.com" />
+        </div>
+        <div class="mb-1">
+            <label class="form-label" for="basic-icon-default-email">Senha</label>
+            <input type="text" id="basic-icon-default-email" class="form-control dt-email" asp-for="Senha" placeholder="********"  />
+        </div>
+        <button type="submit" class="btn btn-primary data-submit me-1">Criar</button>
+        <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+    </div>
+</form>

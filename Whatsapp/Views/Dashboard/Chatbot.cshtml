@@ -1,0 +1,103 @@
+﻿@model Whatsapp.Data.MainModels.Chatbot;
+@{ 
+    ViewData["Config"] = "active";
+    var sessoes = ViewBag.Sessoes as List<Whatsapp.Data.MainModels.Sessao>;
+}
+<div class="app-content content ">
+    <div class="content-overlay"></div>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-wrapper container-xxl p-0">
+        <div class="content-header row">
+            <div class="content-header-left col-md-9 col-12 mb-2">
+                <div class="row breadcrumbs-top">
+                    <div class="col-12">
+                        <h2 class="content-header-title float-start mb-0">Chatbot</h2>
+                        <div class="breadcrumb-wrapper">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="@Url.Action("Index","Dashboard")">Dashboard</a>
+                                </li>
+                                <li class="breadcrumb-item active">
+                                    Chatbot
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          
+        </div>
+        <div class="content-body">
+            <!-- Blog Edit -->
+            <div class="blog-edit-wrapper">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">                                
+                                <!-- Form -->
+                                <form asp-controller="Dashboard" asp-action="Chatbot" class="mt-2">
+                                    <div class="row">
+                                        <div class="col-md-4 col-12">
+                                            <div class="mb-2">
+                                                <label class="form-label" for="blog-edit-title">Chave para Atendimento Humano</label>
+                                                <input type="text" id="blog-edit-title" class="form-control" asp-for="ChaveHumano" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-12">
+                                            <div class="mb-2">
+                                                <label class="form-label" for="blog-edit-title">Chave para Encerrar Atendimento</label>
+                                                <input type="text" id="blog-edit-title" class="form-control" asp-for="ChaveEncerrar" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="mb-2">
+                                                <label class="form-label" for="blog-edit-title">Chave para Menu Anterior</label>
+                                                <input type="text" id="blog-edit-title" class="form-control" asp-for="ChaveMenuAnterior" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-12">
+                                            <div class="mb-2">
+                                                <label class="form-label" for="blog-edit-title">Chave para Menu Atual</label>
+                                                <input type="text" id="blog-edit-title" class="form-control" asp-for="ChaveAtual" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-12">
+                                            <div class="mb-2">
+                                                <label class="form-label" for="blog-edit-title">Chave para Menu Inicial</label>
+                                                <input type="text" id="blog-edit-title" class="form-control" asp-for="ChaveInicio" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-12">
+                                            <div class="mb-2">
+                                                <label class="form-label" for="blog-edit-title">Selecione o menu inicial:</label>
+                                                <select class="form-control" asp-for="ChaveInicioDestino" style="width: 100%">
+
+                                                    @{
+                                                        foreach (var item in sessoes)
+                                                        {
+                                                            <option value="@item.ID">@item.Titulo</option>
+                                                        }
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 mt-50">
+                                            <button type="submit" class="btn btn-primary me-1">Salvar Alterações</button>
+                                            <a href="@Url.Action("Sessoes","Dashboard")">
+                                                <button class="btn btn-info me-1" type="button" onclick="return;">Editar Sessões</button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </form>
+                                <!--/ Form -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/ Blog Edit -->
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,270 @@
+﻿@{
+    Layout = "";
+    var chats = ViewBag.Chats as List<Whatsapp.API.Models.Chat>;
+    var tickets = ViewBag.Tickets as List<Whatsapp.API.Models.TicketBruto>;
+    if (tickets == null) { tickets = new List<Whatsapp.API.Models.TicketBruto>(); }
+    var naoLidas = 0;
+    foreach(var item in tickets.Where(p =>p.Status == "Humano").ToList())
+    {
+        naoLidas += item.NaoLidas;
+    }
+    var x = "--:--";
+}
+<h5 class="chat-list-title">Em Andamento (@tickets.FindAll(p => p.Status != "Encerrado" && p.Status != "BOT").Count())</h5>
+
+
+<ul class="chat-users-list contact-list media-list">
+    @{
+        if (tickets.Count > 0)
+        {
+            foreach (var item in tickets.FindAll(p => p.Status != "Encerrado" && p.Status != "BOT" && p.Mensagens != null))
+            {
+                var tempoPassado = "";
+                var horaEnvio = item.Mensagens.Last().Horario.UtcDateTime;
+                var horaAtual = DateTime.Now;
+                var dif = horaAtual - horaEnvio;
+                if (dif.TotalSeconds < 60) { tempoPassado = "agora"; }
+                else if (dif.TotalSeconds >= 60) { tempoPassado = Convert.ToInt32(dif.TotalMinutes) + " min"; }
+
+                if (item.Mensagens.Count() != 0)
+                {
+                    x = item.Mensagens.Last().Horario.DateTime.ToShortTimeString();
+                }
+
+        <li onclick="abrirTicket('@item.ID')">
+            <span class="avatar">
+                <img src="@item.Imagem" height="42" width="42" alt="Generic placeholder image" />
+                @*<span class="avatar-status-offline"></span>*@
+            </span>
+            <div class="chat-info flex-grow-1">
+                <h5 class="mb-0">@item.Nome</h5>
+                <p class="card-text text-truncate">
+                    @{
+                        if (item.Mensagens.Count() != 0)
+                        {
+
+                            var msg = item.Mensagens.Last().Texto;
+                            if (item.Mensagens.Last().Tipo == "ptt")
+                            { @Html.Raw("[VOZ]");
+                        }
+                        else if (item.Mensagens.Last().Tipo == "audio")
+                        { @Html.Raw("[AUDIO]");
+                    }
+                    else if (item.Mensagens.Last().Tipo == "video")
+                    { @Html.Raw("[VIDEO]");
+                }
+                else if (item.Mensagens.Last().Tipo == "gif")
+                { @Html.Raw("[GIF]");
+            }
+            else if (item.Mensagens.Last().Tipo == "sticker")
+            { @Html.Raw("[STICKER]");
+        }
+        else if (item.Mensagens.Last().Tipo == "document")
+        { @Html.Raw("[DOCUMENTO]");
+    }
+    else if (item.Mensagens.Last().Tipo == "image")
+    { @Html.Raw("[IMAGEM]");
+    }
+    else if (item.Mensagens.Last().Tipo == "location")
+    { @Html.Raw("[LOCAL]");
+    }
+    else if (item.Mensagens.Last().Tipo == "chat")
+    {
+
+        @if (msg.Length >= 10)
+        {
+            @msg.Substring(0, 10);
+        }
+        else
+        {
+            @msg;
+        }
+    }
+}
+else
+{
+        @Html.Raw("Iniciado por: " + item.Atendente);
+    }
+                    }
+                </p>
+            </div>
+            <span style="font-size: 0px; width:0px; height:0px;">@item.Telefone</span>
+            <div class="chat-meta text-nowrap">
+                <small class="float-end mb-25 chat-time">@tempoPassado</small>
+                @if (item.Status == "Humano" && item.NaoLidas != 0)
+                {
+                    <span class="badge bg-success rounded-pill float-end">@item.NaoLidas</span>
+                }
+                else if (item.Status == "BOT")
+                {
+                    <span class="badge bg-dark rounded-pill float-end">B</span>
+                }
+                else if (item.Status == "Espera")
+                {
+                    <span class="badge bg-warning rounded-pill float-end">E</span>
+                }
+            </div>
+        </li>
+
+            }
+        }
+    }
+    <li class="no-results">
+        <h6 class="mb-0">Nenhum resultado encontrado</h6>
+    </li>
+</ul>
+
+<h5 class="chat-list-title">Bot (@tickets.FindAll(p => p.Status == "BOT" && p.Mensagens != null).Count())</h5>
+<ul class="chat-users-list contact-list media-list">
+    @{
+        if (tickets.Count > 0)
+        {
+            foreach (var item in tickets.FindAll(p => p.Status == "BOT" && p.Mensagens != null))
+            {
+
+                var tempoPassado = "";
+                var horaEnvio = item.Mensagens.Last().Horario.UtcDateTime;
+                var horaAtual = DateTime.Now;                
+                var dif = horaAtual - horaEnvio;
+                if (dif.TotalSeconds < 60) { tempoPassado = "agora"; }
+                else if (dif.TotalSeconds >= 60) { tempoPassado = Convert.ToInt32(dif.TotalMinutes) + " min"; }
+
+                if (item.Mensagens.Count() != 0)
+                {
+                    x = item.Mensagens.Last().Horario.DateTime.ToShortTimeString();
+                }
+
+        <li onclick="abrirTicket('@item.ID')">
+            <span class="avatar">
+                <img src="@item.Imagem" height="42" width="42" alt="Generic placeholder image" />
+                @*<span class="avatar-status-offline"></span>*@
+            </span>
+            <div class="chat-info flex-grow-1">
+                <h5 class="mb-0">@item.Nome</h5>
+                <p class="card-text text-truncate">
+                    @if (item.Mensagens.Count() != 0)
+                    {
+                        var msg = item.Mensagens.Last().Texto;
+                        if (item.Mensagens.Last().Tipo == "ptt")
+                        {@Html.Raw("[VOZ]");
+                    }
+                    else if (item.Mensagens.Last().Tipo == "audio")
+                    { @Html.Raw("[AUDIO]");
+                }
+                else if (item.Mensagens.Last().Tipo == "video")
+                { @Html.Raw("[VIDEO]");
+            }
+            else if (item.Mensagens.Last().Tipo == "gif")
+            { @Html.Raw("[GIF]");
+        }
+        else if (item.Mensagens.Last().Tipo == "sticker")
+        { @Html.Raw("[STICKER]");
+    }
+    else if (item.Mensagens.Last().Tipo == "document")
+    { @Html.Raw("[DOCUMENTO]");
+    }
+    else if (item.Mensagens.Last().Tipo == "image")
+    { @Html.Raw("[IMAGEM]");
+    }
+    else if (item.Mensagens.Last().Tipo == "location")
+    { @Html.Raw("[LOCAL]");
+    }
+    else if (item.Mensagens.Last().Tipo == "chat")
+    {
+
+        @if (msg.Length >= 25)
+        {
+            @msg.Substring(0, 25);
+        }
+        else
+        {
+            @msg;
+        }
+    }
+}
+else
+{
+        @Html.Raw("Iniciado por: " + item.Atendente);
+    }
+                </p>
+            </div>
+            <span style="font-size: 0px; width:0px; height:0px;">@item.Telefone</span>
+            <div class="chat-meta text-nowrap">
+                <small class="float-end mb-25 chat-time">@tempoPassado</small>
+                @if (item.Status == "Humano")
+                {
+                    <span class="badge bg-success rounded-pill float-end">H</span>
+                }
+                else if (item.Status == "BOT")
+                {
+                    <span class="badge bg-dark rounded-pill float-end">B</span>
+                }
+                else if (item.Status == "Espera")
+                {
+                    <span class="badge bg-warning rounded-pill float-end">E</span>
+                }
+            </div>
+        </li>
+
+            }
+        }
+    }
+    <li class="no-results">
+        <h6 class="mb-0">Nenhum resultado encontrado</h6>
+    </li>
+</ul>
+
+<script>
+    Tinycon.setBubble(@naoLidas);
+    var naoLidasAtual = @naoLidas;
+
+    if (naoLidasAtual !== naoLidasAnterior) {
+        if (naoLidasAtual > naoLidasAnterior) {
+            var dif = naoLidasAtual - naoLidasAnterior;
+            for (var i = 0; i <= dif; i++) {
+                var audio = new Audio('/whatsnot.mp3');
+                audio.play();
+            }
+        }
+
+        naoLidasAnterior = naoLidasAtual;
+    }
+
+
+    function abrirChat(a) {
+        if (typeof refreshTimer !== 'undefined') {
+            clearInterval(refreshTimer);
+        }
+        $.ajax({
+            'type': 'get',
+            'contentType': 'text/plain',
+            'url': '/Dashboard/Chat?ID=' + a,
+            'dataType': 'html',
+        }).done(function (data) {
+            $('#chat').html(data);
+            js();
+        }).fail(function (error) {
+            console.log(error);
+        });
+    }
+
+
+    function abrirTicket(a) {
+        if (typeof refreshTimer !== 'undefined') {
+            clearInterval(refreshTimer);
+        }
+        $.ajax({
+            'type': 'get',
+            'contentType': 'text/plain',
+            'url': '/Dashboard/Ticket?ID=' + a,
+            'dataType': 'html',
+        }).done(function (data) {
+            $('#chat').html(data);
+            js();
+        }).fail(function (error) {
+            console.log(error);
+        });
+
+    }
+</script>
+

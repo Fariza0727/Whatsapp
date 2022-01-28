@@ -1,0 +1,242 @@
+﻿@{
+    var ticket = ViewBag.TicketData as Whatsapp.API.Models.TicketBruto;
+    var chat = ViewBag.Chat as Whatsapp.API.Models.Chat;
+    var block = "";
+    var ticketID = "";
+    if (ticket == null) { block = "disabled=\"disabled\""; } else { ticketID = ticket.ID.ToString(); }
+
+}
+<style>
+    input[type="file"] {
+        display: none;
+    }
+
+    .custom-file-upload {
+        border: 1px solid #ccc;
+        display: inline-block;
+        padding: 6px 12px;
+        cursor: pointer;
+    }
+</style>
+@{
+    if (ticket == null)
+    {
+        <form class="chat-app-form" action="javascript:void(0);">
+            <div class="input-group input-group-merge me-1 form-send-message">
+                <input type="text" disabled class="form-control message" placeholder="Inicie o ticket para enviar mensagens" />
+
+            </div>
+
+            <a href="@Url.Action("IniciarTicket","Ticket", new { ID = chat.ID })">
+                <button type="button" class="btn btn-primary send">
+                    <i data-feather="send" class="d-lg-none"></i>
+                    <span class="d-none d-lg-block">Iniciar Ticket</span>
+                </button>
+            </a>
+
+        </form>
+    }
+    else
+    {
+        if (ticket.Status == "Espera")
+        {
+            <form class="chat-app-form" action="javascript:void(0);">
+                <div class="input-group input-group-merge me-1 form-send-message">
+                    <input type="text" disabled class="form-control message" placeholder="Esse ticket está aguardando atendimento humano" />
+
+                </div>
+
+                <a href="@Url.Action("AlterarTicket","Ticket", new { ID = ticket.ID , Status = "Humano"})">
+                    <button type="button" class="btn btn-success send">
+                        <i data-feather="send" class="d-lg-none"></i>
+                        <span class="d-none d-lg-block">Iniciar Atendimento</span>
+                    </button>
+                </a>
+
+            </form>
+        }
+        else if (ticket.Status == "BOT")
+        {
+            <form class="chat-app-form" action="javascript:void(0);">
+                <div class="input-group input-group-merge me-1 form-send-message">
+                    <input type="text" disabled class="form-control message" placeholder="Esse ticket está aguardando atendimento humano" />
+
+                </div>
+
+                <a href="@Url.Action("AlterarTicket","Ticket", new { ID = ticket.ID , Status = "Humano"})">
+                    <button type="button" class="btn btn-success send">
+                        <i data-feather="send" class="d-lg-none"></i>
+                        <span class="d-none d-lg-block">Assumir Atendimento</span>
+                    </button>
+                </a>
+
+            </form>
+        }
+        else if (ticket.Status == "Humano")
+        {
+
+
+<form class="chat-app-form" id="FormEnviarMensagem" enctype="multipart/form-data" asp-action="EnviarMensagem" asp-controller="Ticket">
+
+    <div class="input-group input-group-merge me-1 form-send-message">
+        <span class="speech-to-text input-group-text" onclick="Microfone()"><img id="iconVoice" src="https://i.imgur.com/CQz3O8U.png" /></span>
+        <input type="hidden" id="voice" name="voice" />
+        <input type="hidden" id="reply" name="reply" />
+        <input type="hidden" name="chat" value="@chat.ID" />
+        <textarea type="text" id="mensagem" onkeypress="Key(this)" name="mensagem" class="form-control message" placeholder="Digite sua mensagem..." style="resize:none; max-height: 50px; min-height: 50px; "></textarea>
+        <span class="input-group-text">
+            <label for="attach-doc" class="attachment-icon form-label mb-0">
+                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg>
+                <input type="file" id="attach-doc" name="attach-doc" hidden="" onchange="haveFile()">
+                <span class="badge badge-light-success rounded-pill" id="haveFile" hidden="">1</span>
+            </label>
+        </span>
+    </div>
+    <button type="submit" class="btn btn-primary send">
+        <span class="d-none d-lg-block">Enviar</span>
+    </button>
+
+</form>
+        }
+    }
+}
+
+<script>
+    function Key(e) {
+        if (event.keyCode == 13 && !event.shiftKey) {
+            enviarMensagem();
+        }
+    }
+    function haveFile() {
+        var el = document.getElementById("haveFile");
+        var file = document.getElementById("attach-doc");
+        if (file.value === '') {
+            el.setAttribute('hidden', 'hidden');
+        } else {
+            el.removeAttribute('hidden');
+        }
+    }
+
+    $('#FormEnviarMensagem').on('submit', function (e) {
+        console.log('Mensagem Enviada');
+        e.preventDefault();
+        enviarMensagem();
+    });
+
+
+    var gravando = false;
+    var audioStream;
+    var audioInit;
+    var audioEnd;
+    var base64 = "";
+    var recordAudio = () => {
+        return new Promise(resolve => {
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(stream => {
+                    audioStream = stream;
+                    const mediaRecorder = new MediaRecorder(stream);
+                    const audioChunks = [];
+
+                    mediaRecorder.addEventListener("dataavailable", event => {
+                        audioChunks.push(event.data);
+                    });
+
+                    const start = () => {
+                        gravando = true;
+                        audioInit = Date.now();
+                        mediaRecorder.start();
+                    };
+
+                    const stop = () => {
+                        gravando = false;
+                        audioEnd = Date.now();
+                        return new Promise(resolve => {
+                            mediaRecorder.addEventListener("stop", () => {
+                                const audioBlob = new Blob(audioChunks);
+                                const audioUrl = URL.createObjectURL(audioBlob);
+                                const audio = new Audio(audioUrl);
+                                const play = () => {
+                                    audio.play();
+                                };
+
+                                var reader = new window.FileReader();
+                                reader.readAsDataURL(audioBlob);
+                                reader.onloadend = function () {
+                                    base64 = reader.result;
+                                    base64 = base64.split(',')[1];
+                                    console.log(base64)
+                                    document.getElementById('voice').value = base64 + "|" + parseInt(Math.abs((audioEnd - audioInit) / 1000));
+
+                                    enviarMensagem();
+                                }
+
+                                resolve({ audioBlob, audioUrl, play });
+                            });
+
+                            mediaRecorder.stop();
+                        });
+                    };
+
+                    resolve({ start, stop });
+                });
+        });
+    };
+
+    var recorder;
+    function Microfone() {
+        if (gravando) {
+            Parar();
+            document.getElementById("iconVoice").src = "https://i.imgur.com/CQz3O8U.png";
+        } else {
+            Gravar();
+            document.getElementById("iconVoice").src = "https://i.imgur.com/mCzxgyo.png";
+        }
+    }
+
+    async function Gravar() {
+        recorder = await recordAudio();
+        recorder.start();
+    }
+
+    async function Parar() {
+        const audio = await recorder.stop();
+        audioStream.getTracks()[0].stop();
+
+    }
+
+
+    function enviarMensagem() {
+        var form = $('#FormEnviarMensagem')[0];
+        var data = new FormData(form);
+        $.ajax({
+            type: "POST",
+            enctype: 'multipart/form-data',
+            url: '/Ticket/EnviarMensagem',
+            data: data,
+            processData: false,
+            contentType: false,
+            cache: false,
+            timeout: 600000,
+            success: function (data) {
+                document.getElementById('mensagem').value = "";
+                document.getElementById('voice').value = "";
+                document.getElementById('attach-doc').value = "";
+                return false;
+            },
+            error: function (e) {
+                console.log("ERROR : ", e);
+                return false;
+            }
+        });
+    }
+
+</script>
+
+<script>
+    if (feather) {
+        feather.replace({
+            width: 14,
+            height: 14
+        });
+    }
+</script>
